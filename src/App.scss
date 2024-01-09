@@ -1,0 +1,29 @@
+.App {
+	display: flex;
+	justify-content: space-between;
+  text-align: center;
+	height: 100vh;
+}
+
+.DetailsSection {
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	width: 30%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -1,0 +1,62 @@
+[
+	{
+		"id": 1,
+		"title": "Оренда квартири",
+		"description": "Оренда квартири у центрі Льовова подобово",
+		"image": "https://city-adm.lviv.ua/images/_news/2020/07/22/arxitektura/BEZ08415-HDR.jpg",
+		"price": 200,
+		"location": [49.842957,24.031111],
+		"city": "Lviv",
+		"region": "Львівська область"
+	},
+	{
+		"id": 2,
+		"title": "Продам кошенят",
+		"description": "продаються кошенята породи шотландська висловуха, вік 2 місяці",
+		"image": "https://zelenvsit.cx.ua/wp-content/uploads/2018/3/sif-291.jpg",
+		"price": 100,
+		"location": [50.450001,30.523333],
+		"city": "Kyiv",
+		"region": "Київська область"
+	},
+	{
+		"id": 3,
+		"title": "Котедж",
+		"description": "Оренда котеджу в центрі Одеська області",
+		"image": "https://dovkola.media/wp-content/uploads/2020/06/Snymok-krana-2020-06-05-v-16.06.41.png",
+		"price": 300,
+		"location": [45.9908,29.69672000],
+		"city": "Zorya",
+		"region": "Одеська область"
+	},
+	{
+		"id": 4,
+		"title": "Оренда офісу",
+		"description": "Оренда офісу деталі за номером 380690000000",
+		"image": "https://dozvil.kh.ua/_files/photos/changing/53_1501771591738_1024_768.jpg",
+		"price": 1000,
+		"location": [49.988358,36.232845],
+		"city": "Kharkiv",
+		"region": "Харківська область"
+	},
+	{
+		"id": 5,
+		"title": "Оренда квартири",
+		"description": "Оренда квартири в затишному районі Харкова",
+		"image": "https://ireland.apollo.olxcdn.com/v1/files/rr6j2kc7ch562-UA/image;s=1000x750",
+		"price": 400,
+		"location": [49.888358,36.932845],
+		"city": "Kharkiv",
+		"region": "Харківська область"
+	},
+	{
+		"id": 6,
+		"title": "Оренда фотостудії",
+		"description": "Оренда фотостудії з виглядом на Хрещатик, професійне світло входить в ціну",
+		"image": "https://inlight.com.ua/wp-content/uploads/2021/11/photo_2021-03-17-14.58.17.jpeg",
+		"price": 200,
+		"location": [50.150101,30.625333],
+		"city": "Kyiv",
+		"region": "Київська область"
+	}
+]
