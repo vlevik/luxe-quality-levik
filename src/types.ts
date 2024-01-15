@@ -4,7 +4,8 @@ export type Ad = {
 	"description": string,
 	"image": string,
 	"price": number,
-	"location": number[],
+	"long": number,
+	"lat": number,
 	"city": string,
 	"region": string
 };

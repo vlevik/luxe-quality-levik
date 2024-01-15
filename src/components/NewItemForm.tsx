@@ -6,6 +6,7 @@ import uaRegions from '../data/ua_regions.json';
 import uaCities from '../data/ua_cities.json';
 import { Input } from './Input';
 import { Select } from './Select';
+import { addNewAd } from '../api/service';
 
 
 const regions = uaRegions.features.map(region => region.properties.name);
@@ -40,13 +41,25 @@ export const NewItemForm: React.FC<Props> = ({ setAds }) => {
 			price: 0,
 			region: '',
 			city: '',
+			long: 0,
+			lat: 0,
 		},
-		onSubmit: (values) => {
+		onSubmit: async (values) => {
 			const city = uaCities.find(city => city.city === values.city);
-			const coordinates = [Number(city?.lat), Number(city?.lng)];
-			
-			setAds(prev => [{ ...values, id: Date.now(), location: coordinates}, ...prev]);
-			resetForm();
+
+			if (city) {
+				const newAd = {
+					...values,
+					id: Date.now(),
+					long: Number(city.lng),
+					lat: Number(city.lat),
+				}
+	
+				const createdAd = await addNewAd(newAd);
+				
+				setAds(prev => [createdAd, ...prev]);
+				resetForm();
+			}
 		},
 		validationSchema: formSchema,
 	});

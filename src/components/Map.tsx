@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster'
@@ -12,21 +11,24 @@ import { Ad } from '../types';
 import { Feature, Geometry } from '@turf/turf';
 
 type Props = {
+	ads: Ad[],
 	adsToRender: Ad[],
 	selectedAdId: number | null,
 	setSelectedAdId: React.Dispatch<React.SetStateAction<number | null>>,
-	setChosenRegions: React.Dispatch<React.SetStateAction<string[]>>,
+	setChosenRegions: React.Dispatch<React.SetStateAction<string[] | undefined>>,
 	setVisibleMarkers: React.Dispatch<React.SetStateAction<number[]>>
+
 }
 
-export const Map: React.FC<Props> = ({ adsToRender, selectedAdId, setSelectedAdId, setChosenRegions, setVisibleMarkers }) => {
+export const Map: React.FC<Props> = ({ ads, adsToRender, selectedAdId, setSelectedAdId, setChosenRegions, setVisibleMarkers }) => {
 	const [updatedGeoRef, setUpdatedGeoRef] = React.useState(false);
 
   const geoJsonRef = React.useRef<L.GeoJSON<any, any> & { chosenRegions?: number[] }>(null);
 	const mapRef = React.useRef<L.Map>(null);
 
 	const handleViewportChange = () => {
-		const markersOnMap = adsToRender.filter(ad => mapRef.current && mapRef.current.getBounds().contains([ad.location[0], ad.location[1]]));
+		const markersOnMap = ads.filter(ad => mapRef.current && mapRef.current.getBounds().contains([+ad.lat, +ad.long]));
+		
 		setVisibleMarkers(markersOnMap.map(ad => ad.id));
 	}
 
@@ -63,13 +65,13 @@ export const Map: React.FC<Props> = ({ adsToRender, selectedAdId, setSelectedAdI
 		if(geoJsonRef.current && geoJsonRef.current.chosenRegions) {
 			if(geoJsonRef.current.chosenRegions.includes(layer._leaflet_id)) {
 				geoJsonRef.current.chosenRegions.splice(geoJsonRef.current.chosenRegions.indexOf(layer._leaflet_id), 1);
-				setChosenRegions(prev=> prev.filter(region => region !== layer.feature.properties.name));
+				setChosenRegions(prev=> prev?.filter(region => region !== layer.feature.properties.name));
 				geoJsonRef.current.resetStyle(layer);
 			} else {
 				setSelectedAdId(null);
 
 				geoJsonRef.current.chosenRegions.push(layer._leaflet_id);
-				setChosenRegions(prev=> [...prev, layer.feature.properties.name]);
+				setChosenRegions(prev=> [...prev || [], layer.feature.properties.name]);
 				layer.setStyle({
 					weight: 0,
 					color: '#fff',
@@ -116,15 +118,17 @@ const handleGeoJsonRefUpdate = (newRef: React.Ref<L.GeoJSON<any, any>>) => {
 const handleOnMarkerClick = (ad: Ad) => {
 	if (selectedAdId === ad.id) {
 		setSelectedAdId(null);
+		const markersOnMap = ads.filter(ad => mapRef.current && mapRef.current.getBounds().contains([+ad.lat, +ad.long]));
+		setVisibleMarkers(markersOnMap.map(ad => ad.id));
+		setChosenRegions([]);
 	} else {
 		setSelectedAdId(ad.id);
 		if(geoJsonRef.current) {
 			geoJsonRef.current.chosenRegions = [];
-
 		}
-		setChosenRegions([]);
+		setVisibleMarkers([ad.id]);
 	}
-}
+}	
 
 	return (
 		<MapContainer ref={mapRef} className="Map" style={{ height: '100vh', width: '70vw'}} center={[48.49, 31.26]} zoom={6} scrollWheelZoom={false} 	 >
@@ -139,7 +143,7 @@ const handleOnMarkerClick = (ad: Ad) => {
 				{adsToRender.map((ad) => (
 					<Marker 
 						key={ad.id} 
-						position={[ad.location[0], ad.location[1]] } 
+						position={[+ad.lat, +ad.long]} 
 						icon={selectedAdId === ad.id ? SelectedLocationIcon : LocationIcon}
 						eventHandlers={{ click: () => handleOnMarkerClick(ad) }} 
 					/>)
